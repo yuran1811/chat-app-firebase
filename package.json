@@ -6,7 +6,7 @@
 	"author": "Yuran",
 	"license": "MIT",
 	"scripts": {
-		"test": "nodemon src/index.js",
+		"test": "nodemon --inspect src/index.js",
 		"start": "node src/index.js"
 	},
 	"dependencies": {
