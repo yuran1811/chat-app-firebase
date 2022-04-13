@@ -1,13 +1,14 @@
-import { fileURLToPath } from 'url';
-import { Server } from 'socket.io';
 import express from 'express';
 import http from 'http';
 import path from 'path';
+import { Server } from 'socket.io';
+import { fileURLToPath } from 'url';
 import route from './routes/index.js';
 // import * as socketChannel from './app/controllers/socketChannel.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 1811;
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);

@@ -8,17 +8,21 @@
 		<title>App Chat</title>
 	</head>
 	<body>
-		<div class="numActive"></div>
-		<div class="app-title">Chat App</div>
-		<form id="chat-form">
-			<input type="text" id="chat-mes" placeholder="Type message" />
-			<button id="send-chat">Send</button>
-		</form>
+		<div class="header">
+			<div class="active-count"></div>
+			<div class="title">Chat App</div>
+		</div>
+
 		<ul id="messages">
 			<li class="typing-dots hide">
 				<div class="mesFrom"></div>
 			</li>
 		</ul>
+
+		<form id="chat-container">
+			<input type="text" id="chat-mes" placeholder="Type message" />
+			<button id="chat-send">Send</button>
+		</form>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.0/socket.io.min.js"></script>
 		<script src="./js/client.js"></script>

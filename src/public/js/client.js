@@ -1,23 +1,25 @@
 const socket = io();
 
 const thisUserName = prompt('Your name is: ');
-const chatForm = document.querySelector('#chat-form');
+const chatForm = document.querySelector('#chat-container');
 const chatMes = document.querySelector('#chat-mes');
-const numActive = document.querySelector('.numActive');
+const numActive = document.querySelector('.active-count');
 const messages = document.querySelector('#messages');
 const typingDots = messages.querySelector('.typing-dots');
 
 let fiConnect = 0;
 
+const scrollMes = () => messages.scrollBy(0, 1000);
 const renderMes = (mes) => {
 	const isThisUser = mes.name === thisUserName;
 	const eleClass = isThisUser ? 'me' : 'other';
-	messages.innerHTML = `
+	messages.innerHTML += `
 	<li class="${eleClass}">
 		<span class="mesFrom"> ${mes.name} </span>
 		<p class="mesContent"> ${mes.message} </p>
-	</li>
-	${messages.innerHTML}`;
+	</li>`;
+
+	scrollMes();
 };
 
 chatForm.onsubmit = (e) => {
@@ -38,6 +40,7 @@ chatForm.onsubmit = (e) => {
 };
 chatForm.onkeydown = (e) => {
 	if (e.key === 'Enter') return;
+
 	const message = chatMes.value.trim();
 	socket.emit('typing', {
 		name: thisUserName,
