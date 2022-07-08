@@ -1,8 +1,1 @@
-# Chat App
-
-## Todo
-
--   Group Chat
--   Video / Audio Call use WebRTC
--   Show active users
--   Private Chat (Secret Chat)
+# Chat App (Pure SocketIO version)
