@@ -1,8 +1,9 @@
-# Chat App
+# Chatie
 
-## Todo
+## Technologies
 
--   Group Chat
--   Video / Audio Call use WebRTC
--   Show active users
--   Private Chat (Secret Chat)
+-   Firebase
+-   React
+-   zustand
+-   Typescript
+-   TailwindCSS
