@@ -3,20 +3,21 @@
 <p align="center">  
   <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="400" />
 </p>
+<div align="center"><a href="https://chat-app-firebase-pied.vercel.app/" target="_blank">Live Demo</a></div>
 
 ## Features
 
-- Sign in with Google, Facebook
-- Create conversations (personally, group)
+- Sign in with Google
+- Create conversations (direct, group)
 - Allow sending
   - Text
   - Image
   - File
-  - Stickers (from zalo)
-  - Gif (from giph
+  - Stickers (from Zalo)
+  - Gif (from GIPHY)
   - Emoji (emoji-mart)
 - Show if user has seen message
-- Drop file to upload
+- Drop file to send
 - Paste image from clipboard
 - Send reactions to message (like, love, care, haha, wow, sad, angry)
 - Unsent message
@@ -29,17 +30,12 @@
 
 ## Tech Stack
 
-<img src="https://skill-icons-livid.vercel.app/icons?i=react,ts,tailwind,vite&gap=60" height="36" />
-
-- Firebase
-- zustand
+<img src="https://skill-icons-livid.vercel.app/icons?i=firebase,react,ts,tailwind,vite&gap=60" height="36" />
 
 ## Screenshots
 
-<div style="display:flex;gap:12px;justify-content:center">
-	<img src="" style="width:45%;max-width:380px">
-	<img src="" style="width:45%;max-width:380px">
-</div>
+![](./public/screenshots/signin.png)
+![](./public/screenshots/screen1.png)
 
 ## Quick Start
 
