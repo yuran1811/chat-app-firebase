@@ -7,7 +7,7 @@ let cache: { [key: string]: any } = {};
 
 export const useUsersInfo = (userIds: string[]) => {
   const [data, setData] = useState<DocumentSnapshot<DocumentData>[] | null>(
-    userIds.every((id) => cache[id]) ? userIds.map((id) => cache[id]) : null
+    userIds.every((id) => cache[id]) ? userIds.map((id) => cache[id]) : null,
   );
   const [loading, setLoading] = useState(!data);
   const [error, setError] = useState(false);
@@ -21,7 +21,7 @@ export const useUsersInfo = (userIds: string[]) => {
             const res = await getDoc(doc(db, 'users', id));
             cache[id] = res;
             return res;
-          })
+          }),
         );
 
         setData(response);

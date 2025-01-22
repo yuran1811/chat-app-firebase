@@ -1,14 +1,14 @@
-import { ConversationInfo, SavedUser } from '@shared/types';
-import { FC, useState } from 'react';
 import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { FC, useState } from 'react';
+import Spin from 'react-cssfx-loading/src/Spin';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import Alert from '../Alert';
-import { IMAGE_PROXY } from '@shared/constants';
-import Spin from 'react-cssfx-loading/src/Spin';
-import { db } from '@shared/firebase';
-import { useStore } from '../../store';
 import { useUsersInfo } from '@/hooks/useUsersInfo';
+import { IMAGE_PROXY } from '@shared/constants';
+import { db } from '@shared/firebase';
+import { ConversationInfo, SavedUser } from '@shared/types';
+import { useStore } from '../../store';
+import Alert from '../Alert';
 
 interface MembersProps {
   conversation: ConversationInfo;
@@ -91,9 +91,7 @@ const Members: FC<MembersProps> = ({ conversation }) => {
                         className="flex items-center gap-1 bg-dark-lighten px-3 py-1 transition duration-300 hover:brightness-125"
                       >
                         <i className="bx bx-user-x text-2xl"></i>
-                        <span>
-                          {user.uid === currentUser?.uid ? 'Leave group' : 'Kick from group'}
-                        </span>
+                        <span>{user.uid === currentUser?.uid ? 'Leave group' : 'Kick from group'}</span>
                       </button>
                     )}
                     {user.uid !== currentUser?.uid && (

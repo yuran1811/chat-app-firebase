@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import { IMAGE_PROXY } from '@shared/constants';
 import { useStore } from '../../store';
 
@@ -17,10 +18,7 @@ const UserInfo: FC<UserInfoProps> = ({ isOpened, setIsOpened }) => {
         isOpened ? 'visible opacity-100' : 'invisible opacity-0'
       }`}
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="mx-2 w-full max-w-[420px] rounded-lg bg-dark"
-      >
+      <div onClick={(e) => e.stopPropagation()} className="mx-2 w-full max-w-[420px] rounded-lg bg-dark">
         <div className="flex items-center justify-between border-b border-dark-lighten py-3 px-3">
           <div className="flex-1"></div>
           <div className="flex flex-1 items-center justify-center">
@@ -46,8 +44,8 @@ const UserInfo: FC<UserInfoProps> = ({ isOpened, setIsOpened }) => {
               <h1 className="p-2 text-center text-2xl font-bold">{currentUser?.displayName}</h1>
               <div className="mt-2 px-4">
                 <p>ID: {currentUser?.uid}</p>
-                <p>Email: {currentUser?.email || 'None'}</p>
-                <p>Phone Number: {currentUser?.phoneNumber || 'None'}</p>
+                {!!currentUser?.email && <p>Email: {currentUser.email}</p>}
+                {!!currentUser?.phoneNumber && <p>Phone Number: {currentUser.phoneNumber}</p>}
               </div>
             </div>
           </div>

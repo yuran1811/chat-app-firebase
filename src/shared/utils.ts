@@ -13,7 +13,7 @@ export const formatFileName = (name: string) => {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
       .replace(/đ/g, 'd')
-      .replace(/Đ/g, 'D')
+      .replace(/Đ/g, 'D'),
   )}.${extension}`;
 };
 
@@ -41,19 +41,22 @@ export const splitLinkFromMessage = (message: string) => {
   const URL_REGEX =
     /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/gm;
 
-  const result = message.split(' ').reduce((acc, item) => {
-    const isURL = URL_REGEX.test(item);
-    if (isURL) acc.push({ link: item });
-    else {
-      if (typeof acc.slice(-1)[0] === 'string') {
-        acc = [...acc.slice(0, -1), `${acc.slice(-1)[0]} ${item}`];
-      } else {
-        acc.push(item);
+  const result = message.split(' ').reduce(
+    (acc, item) => {
+      const isURL = URL_REGEX.test(item);
+      if (isURL) acc.push({ link: item });
+      else {
+        if (typeof acc.slice(-1)[0] === 'string') {
+          acc = [...acc.slice(0, -1), `${acc.slice(-1)[0]} ${item}`];
+        } else {
+          acc.push(item);
+        }
       }
-    }
 
-    return acc;
-  }, [] as ({ link: string } | string)[]);
+      return acc;
+    },
+    [] as ({ link: string } | string)[],
+  );
 
   return result;
 };

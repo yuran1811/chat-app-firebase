@@ -1,23 +1,20 @@
+import { doc } from 'firebase/firestore';
 import { FC, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
+import { useDocumentQuery } from '@/hooks/useDocumentQuery';
 import ChatHeader from '@cpns/Chat/ChatHeader';
 import ChatView from '@cpns/Chat/ChatView';
-import { ConversationInfo } from '@shared/types';
-import InputSection from '@cpns/Input/InputSection';
 import SideBar from '@cpns/Home/SideBar';
+import InputSection from '@cpns/Input/InputSection';
 import { db } from '@shared/firebase';
-import { doc } from 'firebase/firestore';
-import { useDocumentQuery } from '@/hooks/useDocumentQuery';
-import { useParams } from 'react-router-dom';
+import { ConversationInfo } from '@shared/types';
 import { useStore } from '../store';
 
 const Chat: FC = () => {
   const { id } = useParams();
 
-  const { data, loading, error } = useDocumentQuery(
-    `conversation-${id}`,
-    doc(db, 'conversations', id as string)
-  );
+  const { data, loading, error } = useDocumentQuery(`conversation-${id}`, doc(db, 'conversations', id as string));
 
   const conversation = data?.data() as ConversationInfo;
 

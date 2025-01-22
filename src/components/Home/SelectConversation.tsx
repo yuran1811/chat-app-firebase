@@ -1,12 +1,12 @@
+import { FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { ConversationInfo } from '@shared/types';
-import { FC } from 'react';
-import { IMAGE_PROXY } from '@shared/constants';
-import Skeleton from '../Skeleton';
 import { useLastMessage } from '@/hooks/useLastMessage';
-import { useStore } from '../../store';
 import { useUsersInfo } from '@/hooks/useUsersInfo';
+import { IMAGE_PROXY } from '@shared/constants';
+import { ConversationInfo } from '@shared/types';
+import { useStore } from '../../store';
+import Skeleton from '../Skeleton';
 
 interface SelectConversationProps {
   conversation: ConversationInfo;
@@ -21,11 +21,7 @@ const SelectConversation: FC<SelectConversationProps> = ({ conversation, convers
 
   const { id } = useParams();
 
-  const {
-    data: lastMessage,
-    loading: lastMessageLoading,
-    error: lastMessageError,
-  } = useLastMessage(conversationId);
+  const { data: lastMessage, loading: lastMessageLoading, error: lastMessageError } = useLastMessage(conversationId);
 
   if (loading)
     return (
@@ -48,7 +44,7 @@ const SelectConversation: FC<SelectConversationProps> = ({ conversation, convers
       >
         <img
           className="h-14 w-14 flex-shrink-0 rounded-full object-cover"
-        src={IMAGE_PROXY(filtered?.[0]?.data()?.photoURL)}
+          src={IMAGE_PROXY(filtered?.[0]?.data()?.photoURL)}
           alt=""
         />
         <div className="flex flex-grow flex-col items-start gap-1 py-1">
@@ -82,11 +78,7 @@ const SelectConversation: FC<SelectConversationProps> = ({ conversation, convers
       }`}
     >
       {conversation?.group?.groupImage ? (
-        <img
-          className="h-14 w-14 flex-shrink-0 rounded-full object-cover"
-          src={conversation.group.groupImage}
-          alt=""
-        />
+        <img className="h-14 w-14 flex-shrink-0 rounded-full object-cover" src={conversation.group.groupImage} alt="" />
       ) : (
         <div className="relative h-14 w-14">
           <img

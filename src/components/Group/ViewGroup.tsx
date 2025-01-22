@@ -1,8 +1,8 @@
 import { FC, useState } from 'react';
 
+import { ConversationInfo } from '@shared/types';
 import AddMembers from './AddMembers';
 import Admin from './Admin';
-import { ConversationInfo } from '@shared/types';
 import Members from './Members';
 
 interface ViewGroupProps {

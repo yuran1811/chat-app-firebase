@@ -1,20 +1,20 @@
-import { FC, Fragment, useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
-import { formatDate, formatFileSize, splitLinkFromMessage } from '@shared/utils';
+import { FC, Fragment, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-import ClickAwayListener from '../ClickAwayListener';
 import { EMOJI_REGEX } from '@shared/constants';
-import FileIcon from '../FileIcon';
-import ImageView from '../ImageView';
+import { db } from '@shared/firebase';
 import { MessageItem } from '@shared/types';
+import { formatDate, formatFileSize, splitLinkFromMessage } from '@shared/utils';
+import { useStore } from '../../store';
 import ReactionPopup from '../Chat/ReactionPopup';
 import ReactionStatus from '../Chat/ReactionStatus';
 import ReplyBadge from '../Chat/ReplyBadge';
+import ClickAwayListener from '../ClickAwayListener';
+import FileIcon from '../FileIcon';
 import ReplyIcon from '../Icon/ReplyIcon';
+import ImageView from '../ImageView';
 import SpriteRenderer from '../SpriteRenderer';
-import { db } from '@shared/firebase';
-import { useParams } from 'react-router-dom';
-import { useStore } from '../../store';
 
 interface RightMessageProps {
   message: MessageItem;
@@ -40,9 +40,7 @@ const RightMessage: FC<RightMessageProps> = ({ message, setReplyInfo }) => {
     });
   };
 
-  const formattedDate = formatDate(
-    message.createdAt?.seconds ? message.createdAt?.seconds * 1000 : Date.now()
-  );
+  const formattedDate = formatDate(message.createdAt?.seconds ? message.createdAt?.seconds * 1000 : Date.now());
 
   return (
     <div id={`message-${message.id}`}>
@@ -76,12 +74,7 @@ const RightMessage: FC<RightMessageProps> = ({ message, setReplyInfo }) => {
                     {typeof item === 'string' ? (
                       <span>{item}</span>
                     ) : (
-                      <a
-                        className="mx-1 inline underline"
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a className="mx-1 inline underline" href={item.link} target="_blank" rel="noopener noreferrer">
                         {item.link}
                       </a>
                     )}
@@ -102,11 +95,7 @@ const RightMessage: FC<RightMessageProps> = ({ message, setReplyInfo }) => {
               src={message.content}
               alt=""
             />
-            <ImageView
-              src={message.content}
-              isOpened={isImageViewOpened}
-              setIsOpened={setIsImageViewOpened}
-            />
+            <ImageView src={message.content} isOpened={isImageViewOpened} setIsOpened={setIsImageViewOpened} />
           </>
         ) : message.type === 'file' ? (
           <div
@@ -119,13 +108,9 @@ const RightMessage: FC<RightMessageProps> = ({ message, setReplyInfo }) => {
               extension={message.file?.name.split('.').slice(-1)[0] as string}
             />
             <div>
-              <p className="max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
-                {message.file?.name}
-              </p>
+              <p className="max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">{message.file?.name}</p>
 
-              <p className="text-sm text-gray-400">
-                {formatFileSize(message.file?.size as number)}
-              </p>
+              <p className="text-sm text-gray-400">{formatFileSize(message.file?.size as number)}</p>
             </div>
 
             <a href={message.content} download target="_blank" rel="noopener noreferrer">
@@ -133,12 +118,7 @@ const RightMessage: FC<RightMessageProps> = ({ message, setReplyInfo }) => {
             </a>
           </div>
         ) : message.type === 'sticker' ? (
-          <SpriteRenderer
-            onClick={(e) => e.stopPropagation()}
-            title={formattedDate}
-            src={message.content}
-            size={130}
-          />
+          <SpriteRenderer onClick={(e) => e.stopPropagation()} title={formattedDate} src={message.content} size={130} />
         ) : (
           <div
             onClick={(e) => e.stopPropagation()}
@@ -192,9 +172,7 @@ const RightMessage: FC<RightMessageProps> = ({ message, setReplyInfo }) => {
               </ClickAwayListener>
             )}
 
-            {Object.keys(message.reactions || {}).length > 0 && (
-              <ReactionStatus message={message} position="right" />
-            )}
+            {Object.keys(message.reactions || {}).length > 0 && <ReactionStatus message={message} position="right" />}
           </>
         )}
       </div>

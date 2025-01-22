@@ -1,8 +1,8 @@
-import { DEFAULT_AVATAR, IMAGE_PROXY } from '@shared/constants';
-
 import { FC } from 'react';
-import Skeleton from '../Skeleton';
+
 import { useUsersInfo } from '@/hooks/useUsersInfo';
+import { DEFAULT_AVATAR, IMAGE_PROXY } from '@shared/constants';
+import Skeleton from '../Skeleton';
 
 interface AvatarFromIdProps {
   uid: string;

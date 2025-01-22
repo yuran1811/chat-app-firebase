@@ -1,18 +1,18 @@
-import { ConversationInfo, MessageItem } from '@shared/types';
 import { FC, Fragment, useState } from 'react';
-import { formatDate, formatFileSize, splitLinkFromMessage } from '@shared/utils';
 
-import AvatarFromId from '../Chat/AvatarFromId';
-import ClickAwayListener from '../ClickAwayListener';
 import { EMOJI_REGEX } from '@shared/constants';
-import FileIcon from '../FileIcon';
-import ImageView from '../ImageView';
+import { ConversationInfo, MessageItem } from '@shared/types';
+import { formatDate, formatFileSize, splitLinkFromMessage } from '@shared/utils';
+import { useStore } from '../../store';
+import AvatarFromId from '../Chat/AvatarFromId';
 import ReactionPopup from '../Chat/ReactionPopup';
 import ReactionStatus from '../Chat/ReactionStatus';
 import ReplyBadge from '../Chat/ReplyBadge';
+import ClickAwayListener from '../ClickAwayListener';
+import FileIcon from '../FileIcon';
 import ReplyIcon from '../Icon/ReplyIcon';
+import ImageView from '../ImageView';
 import SpriteRenderer from '../SpriteRenderer';
-import { useStore } from '../../store';
 
 interface LeftMessageProps {
   message: MessageItem;
@@ -23,21 +23,13 @@ interface LeftMessageProps {
   setReplyInfo: (value: any) => void;
 }
 
-const LeftMessage: FC<LeftMessageProps> = ({
-  message,
-  conversation,
-  index,
-  docs,
-  setReplyInfo,
-}) => {
+const LeftMessage: FC<LeftMessageProps> = ({ message, conversation, index, docs, setReplyInfo }) => {
   const [isSelectReactionOpened, setIsSelectReactionOpened] = useState(false);
   const currentUser = useStore((state) => state.currentUser);
 
   const [isImageViewOpened, setIsImageViewOpened] = useState(false);
 
-  const formattedDate = formatDate(
-    message.createdAt.seconds ? message.createdAt.seconds * 1000 : Date.now()
-  );
+  const formattedDate = formatDate(message.createdAt.seconds ? message.createdAt.seconds * 1000 : Date.now());
 
   return (
     <div id={`message-${message.id}`}>
@@ -57,9 +49,7 @@ const LeftMessage: FC<LeftMessageProps> = ({
         {conversation.users.length > 2 && (
           <div onClick={(e) => e.stopPropagation()} className="h-full py-1">
             <div className="h-[30px] w-[30px]">
-              {docs[index - 1]?.data()?.sender !== message.sender && (
-                <AvatarFromId uid={message.sender} />
-              )}
+              {docs[index - 1]?.data()?.sender !== message.sender && <AvatarFromId uid={message.sender} />}
             </div>
           </div>
         )}
@@ -85,12 +75,7 @@ const LeftMessage: FC<LeftMessageProps> = ({
                     {typeof item === 'string' ? (
                       <span>{item}</span>
                     ) : (
-                      <a
-                        className="mx-1 inline underline"
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a className="mx-1 inline underline" href={item.link} target="_blank" rel="noopener noreferrer">
                         {item.link}
                       </a>
                     )}
@@ -111,11 +96,7 @@ const LeftMessage: FC<LeftMessageProps> = ({
               src={message.content}
               alt=""
             />
-            <ImageView
-              src={message.content}
-              isOpened={isImageViewOpened}
-              setIsOpened={setIsImageViewOpened}
-            />
+            <ImageView src={message.content} isOpened={isImageViewOpened} setIsOpened={setIsImageViewOpened} />
           </>
         ) : message.type === 'file' ? (
           <div
@@ -128,13 +109,9 @@ const LeftMessage: FC<LeftMessageProps> = ({
               extension={message.file?.name.split('.').slice(-1)[0] as string}
             />
             <div>
-              <p className="max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
-                {message.file?.name}
-              </p>
+              <p className="max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">{message.file?.name}</p>
 
-              <p className="text-sm text-gray-400">
-                {formatFileSize(message.file?.size as number)}
-              </p>
+              <p className="text-sm text-gray-400">{formatFileSize(message.file?.size as number)}</p>
             </div>
 
             <a href={message.content} download target="_blank" rel="noopener noreferrer">
@@ -142,12 +119,7 @@ const LeftMessage: FC<LeftMessageProps> = ({
             </a>
           </div>
         ) : message.type === 'sticker' ? (
-          <SpriteRenderer
-            onClick={(e) => e.stopPropagation()}
-            title={formattedDate}
-            src={message.content}
-            size={130}
-          />
+          <SpriteRenderer onClick={(e) => e.stopPropagation()} title={formattedDate} src={message.content} size={130} />
         ) : (
           <div
             onClick={(e) => e.stopPropagation()}
@@ -192,10 +164,7 @@ const LeftMessage: FC<LeftMessageProps> = ({
           </>
         )}
         {Object.keys(message.reactions || {}).length > 0 && (
-          <ReactionStatus
-            message={message}
-            position={conversation.users.length > 2 ? 'left-tab' : 'left'}
-          />
+          <ReactionStatus message={message} position={conversation.users.length > 2 ? 'left-tab' : 'left'} />
         )}
       </div>
     </div>

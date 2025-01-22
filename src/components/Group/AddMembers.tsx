@@ -1,12 +1,12 @@
-import { ConversationInfo, SavedUser } from '@shared/types';
 import { arrayUnion, collection, doc, query, updateDoc, where } from 'firebase/firestore';
-
 import { FC } from 'react';
-import { IMAGE_PROXY } from '@shared/constants';
 import Spin from 'react-cssfx-loading/src/Spin';
-import { db } from '@shared/firebase';
-import { useCollectionQuery } from '@/hooks/useCollectionQuery';
 import { useParams } from 'react-router-dom';
+
+import { useCollectionQuery } from '@/hooks/useCollectionQuery';
+import { IMAGE_PROXY } from '@shared/constants';
+import { db } from '@shared/firebase';
+import { ConversationInfo, SavedUser } from '@shared/types';
 
 interface AddMembersProps {
   conversations: ConversationInfo;
@@ -17,7 +17,7 @@ const AddMembers: FC<AddMembersProps> = ({ conversations }) => {
 
   const { data, loading, error } = useCollectionQuery(
     `all-users-except-${JSON.stringify(conversations.users)}`,
-    query(collection(db, 'users'), where('uid', 'not-in', conversations.users.slice(0, 10)))
+    query(collection(db, 'users'), where('uid', 'not-in', conversations.users.slice(0, 10))),
   );
 
   const handleAddMember = (uid: string) => {

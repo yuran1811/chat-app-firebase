@@ -1,11 +1,11 @@
-import { FC, useState } from 'react';
 import { collection, orderBy, query, where } from 'firebase/firestore';
-
-import ImageView from '../ImageView';
+import { FC, useState } from 'react';
 import Spin from 'react-cssfx-loading/src/Spin';
-import { db } from '@shared/firebase';
-import { useCollectionQuery } from '@/hooks/useCollectionQuery';
 import { useParams } from 'react-router-dom';
+
+import { useCollectionQuery } from '@/hooks/useCollectionQuery';
+import { db } from '@shared/firebase';
+import ImageView from '../ImageView';
 
 const ImageItem: FC<{ src: string }> = ({ src }) => {
   const [isImageViewOpened, setIsImageViewOpened] = useState(false);
@@ -31,8 +31,8 @@ const Image: FC = () => {
     query(
       collection(db, 'conversations', conversationId as string, 'messages'),
       where('type', '==', 'image'),
-      orderBy('createdAt', 'desc')
-    )
+      orderBy('createdAt', 'desc'),
+    ),
   );
 
   if (loading || error)
@@ -51,9 +51,7 @@ const Image: FC = () => {
 
   return (
     <div className="flex h-80 flex-wrap content-start gap-4 overflow-y-auto overflow-x-hidden p-4">
-      {data?.docs.map((image) => (
-        <ImageItem key={image.id} src={image.data().content} />
-      ))}
+      {data?.docs.map((image) => <ImageItem key={image.id} src={image.data().content} />)}
     </div>
   );
 };

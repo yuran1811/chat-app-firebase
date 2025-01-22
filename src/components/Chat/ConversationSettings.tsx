@@ -1,14 +1,14 @@
-import { ChangeEvent, FC, FormEvent, useRef, useState } from 'react';
 import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
-import { db, storage } from '@shared/firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { ChangeEvent, FC, FormEvent, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import Alert from '../Alert';
-import { ConversationInfo } from '@shared/types';
 import { THEMES } from '@shared/constants';
+import { db, storage } from '@shared/firebase';
+import { ConversationInfo } from '@shared/types';
 import { formatFileName } from '@shared/utils';
 import { useStore } from '../../store';
+import Alert from '../Alert';
 
 interface ConversationConfigProps {
   conversation: ConversationInfo;
@@ -16,11 +16,7 @@ interface ConversationConfigProps {
   setMediaViewOpened: (value: boolean) => void;
 }
 
-const ConversationSettings: FC<ConversationConfigProps> = ({
-  conversation,
-  setIsOpened,
-  setMediaViewOpened,
-}) => {
+const ConversationSettings: FC<ConversationConfigProps> = ({ conversation, setIsOpened, setMediaViewOpened }) => {
   const { id: conversationId } = useParams();
 
   const currentUser = useStore((state) => state.currentUser);
@@ -28,9 +24,7 @@ const ConversationSettings: FC<ConversationConfigProps> = ({
   const navigate = useNavigate();
 
   const [isChangeChatNameOpened, setIsChangeChatNameOpened] = useState(false);
-  const [chatNameInputValue, setChatNameInputValue] = useState(
-    conversation?.group?.groupName || ''
-  );
+  const [chatNameInputValue, setChatNameInputValue] = useState(conversation?.group?.groupName || '');
 
   const [isChangeThemeOpened, setIsChangeThemeOpened] = useState(false);
 
@@ -101,10 +95,7 @@ const ConversationSettings: FC<ConversationConfigProps> = ({
       onClick={() => setIsOpened(false)}
       className={`fixed top-0 left-0 z-20 flex h-full w-full animate-fade-in items-center justify-center bg-[#00000080] transition-all duration-300`}
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="mx-2 w-full max-w-[500px] rounded-lg bg-dark"
-      >
+      <div onClick={(e) => e.stopPropagation()} className="mx-2 w-full max-w-[500px] rounded-lg bg-dark">
         <div className="flex items-center justify-between border-b border-dark-lighten py-3 px-3">
           <div className="flex-1"></div>
           <div className="flex flex-1 items-center justify-center">
@@ -132,11 +123,7 @@ const ConversationSettings: FC<ConversationConfigProps> = ({
                   <span>Change chat name</span>
                 </div>
 
-                <i
-                  className={`bx bx-chevron-down text-3xl ${
-                    isChangeChatNameOpened ? 'rotate-180' : ''
-                  }`}
-                ></i>
+                <i className={`bx bx-chevron-down text-3xl ${isChangeChatNameOpened ? 'rotate-180' : ''}`}></i>
               </button>
               {isChangeChatNameOpened && (
                 <form onSubmit={handleFormSubmit} className="my-2 flex gap-3">
@@ -171,12 +158,7 @@ const ConversationSettings: FC<ConversationConfigProps> = ({
                 onChange={handleFileInputChange}
               />
 
-              <Alert
-                isOpened={isAlertOpened}
-                setIsOpened={setIsAlertOpened}
-                text={alertText}
-                isError
-              />
+              <Alert isOpened={isAlertOpened} setIsOpened={setIsAlertOpened} text={alertText} isError />
             </>
           )}
           <button
@@ -188,9 +170,7 @@ const ConversationSettings: FC<ConversationConfigProps> = ({
               <span>Change theme</span>
             </div>
 
-            <i
-              className={`bx bx-chevron-down text-3xl ${isChangeThemeOpened ? 'rotate-180' : ''}`}
-            ></i>
+            <i className={`bx bx-chevron-down text-3xl ${isChangeThemeOpened ? 'rotate-180' : ''}`}></i>
           </button>
 
           {isChangeThemeOpened && (

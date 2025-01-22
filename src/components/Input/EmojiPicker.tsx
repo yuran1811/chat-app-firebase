@@ -1,24 +1,11 @@
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 import { FC } from 'react';
-import { Picker } from 'emoji-mart';
 
 interface EmojiPickerProps {
   onSelect: (emoji: any) => void;
 }
 
-const EmojiPicker: FC<EmojiPickerProps> = ({ onSelect }) => {
-  return (
-    <Picker
-      set="facebook"
-      enableFrequentEmojiSort
-      onSelect={onSelect}
-      theme="dark"
-      showPreview={false}
-      showSkinTones={false}
-      emojiTooltip
-      defaultSkin={1}
-      color="#0F8FF3"
-    />
-  );
-};
+const EmojiPicker: FC<EmojiPickerProps> = ({ onSelect }) => <Picker data={data} onEmojiSelect={onSelect} />;
 
 export default EmojiPicker;

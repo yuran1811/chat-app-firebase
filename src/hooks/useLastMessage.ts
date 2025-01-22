@@ -16,11 +16,7 @@ export const useLastMessage = (conversationId: string) => {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      query(
-        collection(db, 'conversations', conversationId, 'messages'),
-        orderBy('createdAt'),
-        limitToLast(1)
-      ),
+      query(collection(db, 'conversations', conversationId, 'messages'), orderBy('createdAt'), limitToLast(1)),
       (snapshot) => {
         if (snapshot.empty) {
           setData({
@@ -36,20 +32,18 @@ export const useLastMessage = (conversationId: string) => {
           type === 'image'
             ? 'An image'
             : type === 'file'
-            ? `File: ${snapshot.docs[0]?.data()?.file?.name.split('.').slice(-1)[0]}`
-            : type === 'sticker'
-            ? 'A sticker'
-            : type === 'removed'
-            ? 'Message removed'
-            : (snapshot.docs[0].data().content as string);
+              ? `File: ${snapshot.docs[0]?.data()?.file?.name.split('.').slice(-1)[0]}`
+              : type === 'sticker'
+                ? 'A sticker'
+                : type === 'removed'
+                  ? 'Message removed'
+                  : (snapshot.docs[0].data().content as string);
 
         const seconds = snapshot.docs[0]?.data()?.createdAt?.seconds;
         const formattedDate = formatDate(seconds ? seconds * 1000 : Date.now());
 
         response =
-          response.length > 30 - formattedDate.length
-            ? `${response.slice(0, 30 - formattedDate.length)}...`
-            : response;
+          response.length > 30 - formattedDate.length ? `${response.slice(0, 30 - formattedDate.length)}...` : response;
 
         const result = `${response} • ${formattedDate}`;
         setData({
@@ -68,7 +62,7 @@ export const useLastMessage = (conversationId: string) => {
         setData(null);
         setLoading(false);
         setError(true);
-      }
+      },
     );
 
     return () => {

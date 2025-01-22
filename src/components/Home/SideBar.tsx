@@ -1,19 +1,18 @@
-import { DEFAULT_AVATAR, IMAGE_PROXY } from '@shared/constants';
-import { FC, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
 import { collection, orderBy, query, where } from 'firebase/firestore';
+import { FC, useState } from 'react';
+import Spin from 'react-cssfx-loading/src/Spin';
+import { Link, useLocation } from 'react-router-dom';
 
-import ClickAwayListener from '../ClickAwayListener';
+import { useCollectionQuery } from '@/hooks/useCollectionQuery';
+import { DEFAULT_AVATAR, IMAGE_PROXY } from '@shared/constants';
+import { auth, db } from '@shared/firebase';
 import { ConversationInfo } from '@shared/types';
+import { useStore } from '../../store';
+import ClickAwayListener from '../ClickAwayListener';
 import CreateConversation from './CreateConversation';
 import SelectConversation from './SelectConversation';
-import Spin from 'react-cssfx-loading/src/Spin';
 import UserInfo from './UserInfo';
-import { auth } from '@shared/firebase';
-import { db } from '@shared/firebase';
-import { signOut } from 'firebase/auth';
-import { useCollectionQuery } from '@/hooks/useCollectionQuery';
-import { useStore } from '../../store';
 
 const SideBar: FC = () => {
   const currentUser = useStore((state) => state.currentUser);
@@ -27,8 +26,8 @@ const SideBar: FC = () => {
     query(
       collection(db, 'conversations'),
       orderBy('updatedAt', 'desc'),
-      where('users', 'array-contains', currentUser?.uid)
-    )
+      where('users', 'array-contains', currentUser?.uid),
+    ),
   );
 
   const location = useLocation();
@@ -47,10 +46,7 @@ const SideBar: FC = () => {
           </Link>
 
           <div className="flex items-center gap-1">
-            <button
-              onClick={() => setCreateConversationOpened(true)}
-              className="h-8 w-8 rounded-full bg-dark-lighten"
-            >
+            <button onClick={() => setCreateConversationOpened(true)} className="h-8 w-8 rounded-full bg-dark-lighten">
               <i className="bx bxs-edit text-xl"></i>
             </button>
 
@@ -66,9 +62,7 @@ const SideBar: FC = () => {
 
                   <div
                     className={`absolute top-[120%] right-0 flex w-max origin-top-right flex-col items-stretch overflow-hidden rounded-md border border-dark-lighten bg-dark p-2 shadow-lg transition-all duration-200 ${
-                      isDropdownOpened
-                        ? 'visible scale-100 opacity-100'
-                        : 'invisible scale-0 opacity-0'
+                      isDropdownOpened ? 'visible scale-100 opacity-100' : 'invisible scale-0 opacity-0'
                     }`}
                   >
                     <button
@@ -107,10 +101,7 @@ const SideBar: FC = () => {
         ) : data?.empty ? (
           <div className="my-6 flex flex-col items-center justify-center">
             <p className="text-center">No conversation found</p>
-            <button
-              onClick={() => setCreateConversationOpened(true)}
-              className="text-center text-primary"
-            >
+            <button onClick={() => setCreateConversationOpened(true)} className="text-center text-primary">
               Create one
             </button>
           </div>

@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 import SideBar from '@cpns/Home/SideBar';
 
 const Home: FC = () => (

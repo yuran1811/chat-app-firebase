@@ -41,7 +41,7 @@ const SpriteRenderer: FC<HTMLProps<HTMLDivElement> & SpriteRendererProps> = ({
 
               containerRef.current &&
                 (containerRef.current.style.backgroundPosition = `${Math.round(
-                  -((count % stepCount) + 1) * size
+                  -((count % stepCount) + 1) * size,
                 )}px 50%`);
 
               count++;
@@ -61,14 +61,14 @@ const SpriteRenderer: FC<HTMLProps<HTMLDivElement> & SpriteRendererProps> = ({
 
             containerRef.current &&
               (containerRef.current.style.backgroundPosition = `${Math.round(
-                -((count % stepCount) + 1) * size
+                -((count % stepCount) + 1) * size,
               )}px 50%`);
 
             count++;
           }, delay);
         }
       },
-      { once: true }
+      { once: true },
     );
 
     return () => {

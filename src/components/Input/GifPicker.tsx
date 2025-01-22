@@ -1,9 +1,9 @@
 import { FC, useRef, useState } from 'react';
-
-import ClickAwayListener from '../ClickAwayListener';
 import Spin from 'react-cssfx-loading/src/Spin';
-import configs from '@shared/configs';
+
 import { useFetch } from '@/hooks/useFetch';
+import configs from '@shared/configs';
+import ClickAwayListener from '../ClickAwayListener';
 
 interface GifPickerProps {
   setIsOpened: (value: boolean) => void;
@@ -20,9 +20,13 @@ const GifPicker: FC<GifPickerProps> = ({ setIsOpened, onSelect }) => {
       searchInputValue.trim()
         ? `https://api.giphy.com/v1/gifs/search?api_key=${
             configs.giphyAPIKey
-          }&q=${encodeURIComponent(searchInputValue.trim())}`
-        : `https://api.giphy.com/v1/gifs/trending?api_key=${configs.giphyAPIKey}`
-    ).then((res) => res.json())
+          }&q=${encodeURIComponent(searchInputValue.trim())}&limit=25&offset=0`
+        : `https://api.giphy.com/v1/gifs/trending?api_key=${configs.giphyAPIKey}&limit=25&offset=0`,
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res);
+      }),
   );
 
   return (

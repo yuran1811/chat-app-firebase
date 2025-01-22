@@ -1,14 +1,14 @@
-import { FC, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { auth, db } from '@shared/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-
+import { FC, useEffect } from 'react';
 import BarWave from 'react-cssfx-loading/src/BarWave';
+import { Route, Routes } from 'react-router-dom';
+
 import Chat from '@/pages/Chat';
 import Home from '@/pages/Home';
-import PrivateRoute from '@cpns/PrivateRoute';
 import SignIn from '@/pages/SignIn';
-import { onAuthStateChanged } from 'firebase/auth';
+import PrivateRoute from '@cpns/PrivateRoute';
+import { auth, db } from '@shared/firebase';
 import { useStore } from './store';
 
 const App: FC = () => {

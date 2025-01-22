@@ -1,10 +1,10 @@
-import { FC, useState } from 'react';
-
-import Alert from '../Alert';
-import { db } from '@shared/firebase';
 import { doc } from 'firebase/firestore';
-import { useDocumentQuery } from '@/hooks/useDocumentQuery';
+import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
+
+import { useDocumentQuery } from '@/hooks/useDocumentQuery';
+import { db } from '@shared/firebase';
+import Alert from '../Alert';
 
 interface ReplyBadgeProps {
   messageId: string;
@@ -17,7 +17,7 @@ const ReplyBadge: FC<ReplyBadgeProps> = ({ messageId }) => {
 
   const { data, loading, error } = useDocumentQuery(
     `message-${messageId}`,
-    doc(db, 'conversations', conversationId as string, 'messages', messageId)
+    doc(db, 'conversations', conversationId as string, 'messages', messageId),
   );
 
   if (loading || error) return <div className="h-10 w-20 rounded-lg bg-[#4E4F50]"></div>;

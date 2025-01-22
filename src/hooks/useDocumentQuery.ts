@@ -20,7 +20,7 @@ export const useDocumentQuery = (key: string, document: DocumentReference<Docume
         setData(null);
         setLoading(false);
         setError(true);
-      }
+      },
     );
 
     return () => {

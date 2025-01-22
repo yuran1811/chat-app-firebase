@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
-import { IMAGE_PROXY, REACTIONS_UI } from '@shared/constants';
-
-import { MessageItem } from '@shared/types';
 import Spin from 'react-cssfx-loading/src/Spin';
+
 import { useUsersInfo } from '@/hooks/useUsersInfo';
+import { IMAGE_PROXY, REACTIONS_UI } from '@shared/constants';
+import { MessageItem } from '@shared/types';
 
 interface ReactionStatusProps {
   position: 'left' | 'right' | 'left-tab';

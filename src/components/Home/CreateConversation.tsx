@@ -1,11 +1,11 @@
-import { FC, useState } from 'react';
-import { IMAGE_PROXY, THEMES } from '@shared/constants';
 import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'firebase/firestore';
-
+import { FC, useState } from 'react';
 import Spin from 'react-cssfx-loading/src/Spin';
-import { db } from '@shared/firebase';
-import { useCollectionQuery } from '@/hooks/useCollectionQuery';
 import { useNavigate } from 'react-router-dom';
+
+import { useCollectionQuery } from '@/hooks/useCollectionQuery';
+import { IMAGE_PROXY, THEMES } from '@shared/constants';
+import { db } from '@shared/firebase';
 import { useStore } from '../../store';
 
 interface CreateConversationProps {

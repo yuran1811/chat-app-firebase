@@ -1,11 +1,11 @@
 import { FC, Fragment, useState } from 'react';
-
-import ClickAwayListener from '../ClickAwayListener';
-import { STICKERS_URL } from '@shared/constants';
 import Spin from 'react-cssfx-loading/src/Spin';
-import SpriteRenderer from '../SpriteRenderer';
-import { StickerCollections } from '@shared/types';
+
 import { useFetch } from '@/hooks/useFetch';
+import { STICKERS_URL } from '@shared/constants';
+import { StickerCollections } from '@shared/types';
+import ClickAwayListener from '../ClickAwayListener';
+import SpriteRenderer from '../SpriteRenderer';
 
 interface StickerPickerOpened {
   setIsOpened: (value: boolean) => void;
@@ -25,7 +25,7 @@ const getRecentStickers = () => {
 
 const StickerPicker: FC<StickerPickerOpened> = ({ setIsOpened, onSelect }) => {
   const { data, loading, error } = useFetch<StickerCollections>('sticker', () =>
-    fetch(STICKERS_URL).then((res) => res.json())
+    fetch(STICKERS_URL).then((res) => res.json()),
   );
 
   const [recentStickers, setRecentStickers] = useState(getRecentStickers());
@@ -111,9 +111,7 @@ const StickerPicker: FC<StickerPickerOpened> = ({ setIsOpened, onSelect }) => {
                 )}
                 {data?.map((collection) => (
                   <img
-                    onClick={() =>
-                      document.querySelector(`#sticker-${collection.id}`)?.scrollIntoView()
-                    }
+                    onClick={() => document.querySelector(`#sticker-${collection.id}`)?.scrollIntoView()}
                     className="h-9 w-9 cursor-pointer object-cover"
                     src={collection.icon}
                     alt=""

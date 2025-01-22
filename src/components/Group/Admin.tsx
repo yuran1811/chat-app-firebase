@@ -1,13 +1,13 @@
-import { ConversationInfo, SavedUser } from '@shared/types';
-import { FC, useState } from 'react';
 import { arrayRemove, doc, updateDoc } from 'firebase/firestore';
-
-import { IMAGE_PROXY } from '@shared/constants';
+import { FC } from 'react';
 import Spin from 'react-cssfx-loading/src/Spin';
-import { db } from '@shared/firebase';
 import { useParams } from 'react-router-dom';
-import { useStore } from '../../store';
+
 import { useUsersInfo } from '@/hooks/useUsersInfo';
+import { IMAGE_PROXY } from '@shared/constants';
+import { db } from '@shared/firebase';
+import { ConversationInfo, SavedUser } from '@shared/types';
+import { useStore } from '../../store';
 
 interface AdminProps {
   conversation: ConversationInfo;
@@ -51,24 +51,23 @@ const Admin: FC<AdminProps> = ({ conversation }) => {
               <h1>{user.displayName}</h1>
             </div>
 
-            {conversation.group?.admins?.includes(currentUser?.uid as string) &&
-              user.uid !== currentUser?.uid && (
-                <div className="group relative flex-shrink-0" tabIndex={0}>
-                  <button>
-                    <i className="bx bx-dots-horizontal-rounded text-2xl"></i>
-                  </button>
+            {conversation.group?.admins?.includes(currentUser?.uid as string) && user.uid !== currentUser?.uid && (
+              <div className="group relative flex-shrink-0" tabIndex={0}>
+                <button>
+                  <i className="bx bx-dots-horizontal-rounded text-2xl"></i>
+                </button>
 
-                  <div className="invisible absolute top-full right-0 z-[1] flex w-max flex-col items-stretch rounded-lg border border-dark-lighten bg-dark-lighten py-1 opacity-0 transition-all duration-300 group-focus-within:!visible group-focus-within:!opacity-100">
-                    <button
-                      onClick={() => handleRemoveAdminPosition(user.uid)}
-                      className="flex items-center gap-1 bg-dark-lighten px-3 py-1 transition duration-300 hover:brightness-125"
-                    >
-                      <i className="bx bx-user-x text-2xl"></i>
-                      <span>Remove admin position</span>
-                    </button>
-                  </div>
+                <div className="invisible absolute top-full right-0 z-[1] flex w-max flex-col items-stretch rounded-lg border border-dark-lighten bg-dark-lighten py-1 opacity-0 transition-all duration-300 group-focus-within:!visible group-focus-within:!opacity-100">
+                  <button
+                    onClick={() => handleRemoveAdminPosition(user.uid)}
+                    className="flex items-center gap-1 bg-dark-lighten px-3 py-1 transition duration-300 hover:brightness-125"
+                  >
+                    <i className="bx bx-user-x text-2xl"></i>
+                    <span>Remove admin position</span>
+                  </button>
                 </div>
-              )}
+              </div>
+            )}
           </div>
         ))}
     </div>

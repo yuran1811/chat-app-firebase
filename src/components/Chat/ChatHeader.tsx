@@ -1,14 +1,14 @@
 import { FC, useState } from 'react';
-
-import { ConversationInfo } from '@shared/types';
-import ConversationSettings from './ConversationSettings';
-import { IMAGE_PROXY } from '@shared/constants';
 import { Link } from 'react-router-dom';
-import Skeleton from '../Skeleton';
+
+import { useUsersInfo } from '@/hooks/useUsersInfo';
+import { IMAGE_PROXY } from '@shared/constants';
+import { ConversationInfo } from '@shared/types';
+import { useStore } from '../../store';
 import ViewGroup from '../Group/ViewGroup';
 import ViewMedia from '../Media/ViewMedia';
-import { useStore } from '../../store';
-import { useUsersInfo } from '@/hooks/useUsersInfo';
+import Skeleton from '../Skeleton';
+import ConversationSettings from './ConversationSettings';
 
 interface ChatHeaderProps {
   conversation: ConversationInfo;
@@ -36,11 +36,7 @@ const ChatHeader: FC<ChatHeaderProps> = ({ conversation }) => {
           ) : (
             <>
               {conversation.users.length === 2 ? (
-                <img
-                  className="h-10 w-10 rounded-full"
-                  src={IMAGE_PROXY(filtered?.[0]?.data()?.photoURL)}
-                  alt=""
-                />
+                <img className="h-10 w-10 rounded-full" src={IMAGE_PROXY(filtered?.[0]?.data()?.photoURL)} alt="" />
               ) : (
                 <>
                   {conversation?.group?.groupImage ? (
@@ -105,9 +101,7 @@ const ChatHeader: FC<ChatHeaderProps> = ({ conversation }) => {
         />
       )}
 
-      {isGroupMembersOpened && (
-        <ViewGroup setIsOpened={setIsGroupMembersOpened} conversation={conversation} />
-      )}
+      {isGroupMembersOpened && <ViewGroup setIsOpened={setIsGroupMembersOpened} conversation={conversation} />}
       {isViewMediaOpened && <ViewMedia setIsOpened={setIsViewMediaOpened} />}
     </>
   );

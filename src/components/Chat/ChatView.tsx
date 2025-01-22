@@ -1,16 +1,16 @@
-import { ConversationInfo, MessageItem } from '@shared/types';
-import { FC, Fragment, useEffect, useRef, useState } from 'react';
 import { collection, doc, limitToLast, orderBy, query, updateDoc } from 'firebase/firestore';
-
-import AvatarFromId from './AvatarFromId';
+import { FC, Fragment, useEffect, useRef, useState } from 'react';
+import Spin from 'react-cssfx-loading/src/Spin';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useParams } from 'react-router-dom';
+
+import { useCollectionQuery } from '@/hooks/useCollectionQuery';
+import { db } from '@shared/firebase';
+import { ConversationInfo, MessageItem } from '@shared/types';
+import { useStore } from '../../store';
 import LeftMessage from '../Message/LeftMessage';
 import RightMessage from '../Message/RightMessage';
-import Spin from 'react-cssfx-loading/src/Spin';
-import { db } from '@shared/firebase';
-import { useCollectionQuery } from '@/hooks/useCollectionQuery';
-import { useParams } from 'react-router-dom';
-import { useStore } from '../../store';
+import AvatarFromId from './AvatarFromId';
 
 interface ChatViewProps {
   conversation: ConversationInfo;
@@ -19,12 +19,7 @@ interface ChatViewProps {
   setReplyInfo: (value: any) => void;
 }
 
-const ChatView: FC<ChatViewProps> = ({
-  conversation,
-  inputSectionOffset,
-  replyInfo,
-  setReplyInfo,
-}) => {
+const ChatView: FC<ChatViewProps> = ({ conversation, inputSectionOffset, replyInfo, setReplyInfo }) => {
   const { id: conversationId } = useParams();
 
   const currentUser = useStore((state) => state.currentUser);
@@ -38,8 +33,8 @@ const ChatView: FC<ChatViewProps> = ({
     query(
       collection(db, 'conversations', conversationId as string, 'messages'),
       orderBy('createdAt'),
-      limitToLast(limitCount)
-    )
+      limitToLast(limitCount),
+    ),
   );
 
   const dataRef = useRef(data);
@@ -133,7 +128,7 @@ const ChatView: FC<ChatViewProps> = ({
     >
       <div className="flex flex-col items-stretch gap-3 pt-10 pb-1">
         {data?.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() } as MessageItem))
+          .map((doc) => ({ id: doc.id, ...doc.data() }) as MessageItem)
           .map((item, index) => (
             <Fragment key={item.id}>
               {item.sender === currentUser?.uid ? (
@@ -148,9 +143,8 @@ const ChatView: FC<ChatViewProps> = ({
                   conversation={conversation}
                 />
               )}
-              {Object.entries(conversation.seen).filter(
-                ([key, value]) => key !== currentUser?.uid && value === item.id
-              ).length > 0 && (
+              {Object.entries(conversation.seen).filter(([key, value]) => key !== currentUser?.uid && value === item.id)
+                .length > 0 && (
                 <div className="flex justify-end gap-[1px] px-8">
                   {Object.entries(conversation.seen)
                     .filter(([key, value]) => key !== currentUser?.uid && value === item.id)

@@ -1,30 +1,20 @@
-import {
-  ChangeEvent,
-  ClipboardEventHandler,
-  FC,
-  FormEvent,
-  Suspense,
-  lazy,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
-import { db, storage } from '@shared/firebase';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { ChangeEvent, ClipboardEventHandler, FC, FormEvent, Suspense, lazy, useEffect, useRef, useState } from 'react';
+import Spin from 'react-cssfx-loading/src/Spin';
+import { useParams } from 'react-router-dom';
 
+import { EMOJI_REPLACEMENT } from '@shared/constants';
+import { db, storage } from '@shared/firebase';
+import { formatFileName } from '@shared/utils';
+import { useStore } from '../../store';
 import Alert from '../Alert';
 import ClickAwayListener from '../ClickAwayListener';
-import { EMOJI_REPLACEMENT } from '@shared/constants';
 import GifIcon from '../Icon/GifIcon';
-import GifPicker from './GifPicker';
 import ReplyIcon from '../Icon/ReplyIcon';
-import Spin from 'react-cssfx-loading/src/Spin';
 import StickerIcon from '../Icon/StickerIcon';
+import GifPicker from './GifPicker';
 import StickerPicker from './StickerPicker';
-import { formatFileName } from '@shared/utils';
-import { useParams } from 'react-router-dom';
-import { useStore } from '../../store';
 
 const Picker = lazy(() => import('./EmojiPicker'));
 
@@ -35,12 +25,7 @@ interface InputSectionProps {
   setReplyInfo?: (value: any) => void;
 }
 
-const InputSection: FC<InputSectionProps> = ({
-  disabled,
-  setInputSectionOffset,
-  replyInfo,
-  setReplyInfo,
-}) => {
+const InputSection: FC<InputSectionProps> = ({ disabled, setInputSectionOffset, replyInfo, setReplyInfo }) => {
   const [inputValue, setInputValue] = useState('');
 
   const [fileUploading, setFileUploading] = useState(false);
@@ -364,17 +349,9 @@ const InputSection: FC<InputSectionProps> = ({
         >
           <i className="bx bx-link-alt"></i>
         </button>
-        <input
-          ref={fileInputRef}
-          hidden
-          className="hidden"
-          type="file"
-          onChange={handleFileInputChange}
-        />
+        <input ref={fileInputRef} hidden className="hidden" type="file" onChange={handleFileInputChange} />
         <div className="relative flex flex-shrink-0 items-center">
-          {isStickerPickerOpened && (
-            <StickerPicker setIsOpened={setIsStickerPickerOpened} onSelect={sendSticker} />
-          )}
+          {isStickerPickerOpened && <StickerPicker setIsOpened={setIsStickerPickerOpened} onSelect={sendSticker} />}
 
           <button onClick={() => setIsStickerPickerOpened(true)} className="flex items-center">
             <StickerIcon />
@@ -384,7 +361,13 @@ const InputSection: FC<InputSectionProps> = ({
         <div className="relative flex flex-shrink-0 items-center">
           {isGifPickerOpened && <GifPicker setIsOpened={setIsGifPickerOpened} onSelect={sendGif} />}
 
-          <button onClick={() => setIsGifPickerOpened(true)} className="flex items-center">
+          <button
+            onClick={() => {
+              setIsGifPickerOpened(true);
+              console.log('click gif');
+            }}
+            className="flex items-center"
+          >
             <GifIcon />
           </button>
         </div>
