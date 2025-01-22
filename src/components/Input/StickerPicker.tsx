@@ -8,7 +8,7 @@ import ClickAwayListener from '../ClickAwayListener';
 import SpriteRenderer from '../SpriteRenderer';
 
 interface StickerPickerOpened {
-  setIsOpened: (value: boolean) => void;
+  onClickAway: (e: any) => void;
   onSelect: (value: string) => void;
 }
 
@@ -23,7 +23,7 @@ const getRecentStickers = () => {
   }
 };
 
-const StickerPicker: FC<StickerPickerOpened> = ({ setIsOpened, onSelect }) => {
+const StickerPicker: FC<StickerPickerOpened> = ({ onClickAway, onSelect }) => {
   const { data, loading, error } = useFetch<StickerCollections>('sticker', () =>
     fetch(STICKERS_URL).then((res) => res.json()),
   );
@@ -39,7 +39,7 @@ const StickerPicker: FC<StickerPickerOpened> = ({ setIsOpened, onSelect }) => {
   };
 
   return (
-    <ClickAwayListener onClickAway={() => setIsOpened(false)}>
+    <ClickAwayListener onClickAway={onClickAway}>
       {(ref) => (
         <div
           ref={ref}
@@ -60,11 +60,12 @@ const StickerPicker: FC<StickerPickerOpened> = ({ setIsOpened, onSelect }) => {
                     <div className="grid w-full grid-cols-5 justify-between">
                       {recentStickers.map((url) => (
                         <SpriteRenderer
+                          key={url}
                           size={60}
-                          onClick={() => {
+                          onClick={(e) => {
                             onSelect(url);
                             addRecentSticker(url);
-                            setIsOpened(false);
+                            onClickAway(e);
                           }}
                           className="cursor-pointer hover:bg-dark-lighten"
                           src={url}
@@ -85,10 +86,10 @@ const StickerPicker: FC<StickerPickerOpened> = ({ setIsOpened, onSelect }) => {
                         <SpriteRenderer
                           key={sticker.spriteURL}
                           size={60}
-                          onClick={() => {
+                          onClick={(e) => {
                             onSelect(sticker.spriteURL);
                             addRecentSticker(sticker.spriteURL);
-                            setIsOpened(false);
+                            onClickAway(e);
                           }}
                           className="cursor-pointer hover:bg-dark-lighten"
                           src={sticker.spriteURL}
@@ -111,6 +112,7 @@ const StickerPicker: FC<StickerPickerOpened> = ({ setIsOpened, onSelect }) => {
                 )}
                 {data?.map((collection) => (
                   <img
+                    key={collection.id}
                     onClick={() => document.querySelector(`#sticker-${collection.id}`)?.scrollIntoView()}
                     className="h-9 w-9 cursor-pointer object-cover"
                     src={collection.icon}

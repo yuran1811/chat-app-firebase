@@ -46,7 +46,10 @@ const SideBar: FC = () => {
           </Link>
 
           <div className="flex items-center gap-1">
-            <button onClick={() => setCreateConversationOpened(true)} className="h-8 w-8 rounded-full bg-dark-lighten">
+            <button
+              onClick={() => setCreateConversationOpened((s) => !s)}
+              className="h-8 w-8 rounded-full bg-dark-lighten"
+            >
               <i className="bx bxs-edit text-xl"></i>
             </button>
 
@@ -54,7 +57,7 @@ const SideBar: FC = () => {
               {(ref) => (
                 <div ref={ref} className="relative z-10 ml-4">
                   <img
-                    onClick={() => setIsDropdownOpened((prev) => !prev)}
+                    onClick={() => setIsDropdownOpened((s) => !s)}
                     className="h-8 w-8 cursor-pointer rounded-full object-cover"
                     src={currentUser?.photoURL ? IMAGE_PROXY(currentUser.photoURL) : DEFAULT_AVATAR}
                     alt=""

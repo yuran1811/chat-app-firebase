@@ -1,7 +1,7 @@
 import { FC, useEffect, useRef } from 'react';
 
 interface ClickAwayListenerProps {
-  onClickAway: () => void;
+  onClickAway: (e: any) => void;
   children: (ref: any) => any;
 }
 
@@ -10,12 +10,10 @@ const ClickAwayListener: FC<ClickAwayListenerProps> = ({ children, onClickAway }
 
   useEffect(() => {
     const handler = (e: any) => {
-      if (childrenRef.current && !childrenRef.current.contains(e.target)) {
-        onClickAway();
-      }
+      if (childrenRef.current && !childrenRef.current.contains(e.target)) onClickAway(e);
     };
 
-    window.addEventListener('click', handler);
+    window.addEventListener('click', handler, { capture: true });
 
     return () => window.removeEventListener('click', handler);
   }, []);

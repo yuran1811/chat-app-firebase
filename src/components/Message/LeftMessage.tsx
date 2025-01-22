@@ -132,20 +132,12 @@ const LeftMessage: FC<LeftMessageProps> = ({ message, conversation, index, docs,
 
         {message.type !== 'removed' && (
           <>
+            {/* React */}
             <button
               onClick={() => setIsSelectReactionOpened(true)}
               className="text-lg text-gray-500 opacity-0 transition hover:text-gray-300 group-hover:opacity-100"
             >
               <i className="bx bx-smile"></i>
-            </button>
-            <button
-              onClick={(e) => {
-                setReplyInfo(message);
-                e.stopPropagation();
-              }}
-              className="text-gray-500 opacity-0 transition hover:text-gray-300 group-hover:opacity-100"
-            >
-              <ReplyIcon />
             </button>
 
             {isSelectReactionOpened && (
@@ -161,6 +153,17 @@ const LeftMessage: FC<LeftMessageProps> = ({ message, conversation, index, docs,
                 )}
               </ClickAwayListener>
             )}
+
+            {/* Reply */}
+            <button
+              onClick={(e) => {
+                setReplyInfo(message);
+                e.stopPropagation();
+              }}
+              className="text-gray-500 opacity-0 transition hover:text-gray-300 group-hover:opacity-100"
+            >
+              <ReplyIcon />
+            </button>
           </>
         )}
         {Object.keys(message.reactions || {}).length > 0 && (

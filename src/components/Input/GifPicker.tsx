@@ -6,11 +6,11 @@ import configs from '@shared/configs';
 import ClickAwayListener from '../ClickAwayListener';
 
 interface GifPickerProps {
-  setIsOpened: (value: boolean) => void;
+  onClickAway: (e: any) => void;
   onSelect: (gif: any) => void;
 }
 
-const GifPicker: FC<GifPickerProps> = ({ setIsOpened, onSelect }) => {
+const GifPicker: FC<GifPickerProps> = ({ onClickAway, onSelect }) => {
   const [searchInputValue, setSearchInputValue] = useState('');
 
   const timeOutRef = useRef<any>(null);
@@ -22,15 +22,11 @@ const GifPicker: FC<GifPickerProps> = ({ setIsOpened, onSelect }) => {
             configs.giphyAPIKey
           }&q=${encodeURIComponent(searchInputValue.trim())}&limit=25&offset=0`
         : `https://api.giphy.com/v1/gifs/trending?api_key=${configs.giphyAPIKey}&limit=25&offset=0`,
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-      }),
+    ).then((res) => res.json()),
   );
 
   return (
-    <ClickAwayListener onClickAway={() => setIsOpened(false)}>
+    <ClickAwayListener onClickAway={onClickAway}>
       {(ref) => (
         <div
           ref={ref}
@@ -61,18 +57,20 @@ const GifPicker: FC<GifPickerProps> = ({ setIsOpened, onSelect }) => {
             </div>
           ) : (
             <div className="mt-3 flex flex-grow flex-wrap gap-2 overflow-y-auto">
-              {(data as any).data.map((item: any) => (
-                <img
-                  key={item.id}
-                  onClick={() => {
-                    onSelect(item?.images?.original?.url);
-                    setIsOpened(false);
-                  }}
-                  className="h-[100px] flex-1 cursor-pointer object-cover"
-                  src={item?.images?.original?.url}
-                  alt=""
-                />
-              ))}
+              {!!data &&
+                !!(data as any)?.data &&
+                (data as any).data.map((item: any) => (
+                  <img
+                    key={item.id}
+                    onClick={(e) => {
+                      onSelect(item?.images?.original?.url);
+                      onClickAway(e);
+                    }}
+                    className="h-[100px] flex-1 cursor-pointer object-cover"
+                    src={item?.images?.original?.url}
+                    alt={item?.title}
+                  />
+                ))}
             </div>
           )}
         </div>

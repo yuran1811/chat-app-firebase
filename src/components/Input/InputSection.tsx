@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { ChangeEvent, ClipboardEventHandler, FC, FormEvent, Suspense, lazy, useEffect, useRef, useState } from 'react';
@@ -329,6 +330,7 @@ const InputSection: FC<InputSectionProps> = ({ disabled, setInputSectionOffset, 
           disabled ? 'pointer-events-none select-none' : ''
         }`}
       >
+        {/* Send images */}
         <button
           onClick={() => imageInputRef.current?.click()}
           className="flex flex-shrink-0 items-center text-2xl text-primary"
@@ -343,6 +345,8 @@ const InputSection: FC<InputSectionProps> = ({ disabled, setInputSectionOffset, 
           accept="image/*"
           onChange={handleFileInputChange}
         />
+
+        {/* Send files */}
         <button
           onClick={() => fileInputRef.current?.click()}
           className="flex flex-shrink-0 items-center text-2xl text-primary"
@@ -350,28 +354,28 @@ const InputSection: FC<InputSectionProps> = ({ disabled, setInputSectionOffset, 
           <i className="bx bx-link-alt"></i>
         </button>
         <input ref={fileInputRef} hidden className="hidden" type="file" onChange={handleFileInputChange} />
-        <div className="relative flex flex-shrink-0 items-center">
-          {isStickerPickerOpened && <StickerPicker setIsOpened={setIsStickerPickerOpened} onSelect={sendSticker} />}
 
-          <button onClick={() => setIsStickerPickerOpened(true)} className="flex items-center">
+        {/* Send stickers */}
+        <div className="relative flex flex-shrink-0 items-center">
+          <button onClick={() => setIsStickerPickerOpened((s) => !s)} className="flex items-center">
             <StickerIcon />
           </button>
+
+          {isStickerPickerOpened && (
+            <StickerPicker onClickAway={(e) => setIsStickerPickerOpened(false)} onSelect={sendSticker} />
+          )}
         </div>
 
+        {/* Send gifs */}
         <div className="relative flex flex-shrink-0 items-center">
-          {isGifPickerOpened && <GifPicker setIsOpened={setIsGifPickerOpened} onSelect={sendGif} />}
-
-          <button
-            onClick={() => {
-              setIsGifPickerOpened(true);
-              console.log('click gif');
-            }}
-            className="flex items-center"
-          >
+          <button onClick={() => setIsGifPickerOpened((s) => !s)} className="flex items-center">
             <GifIcon />
           </button>
+
+          {isGifPickerOpened && <GifPicker onClickAway={(e) => setIsGifPickerOpened(false)} onSelect={sendGif} />}
         </div>
 
+        {/* Send messages */}
         <form onSubmit={handleFormSubmit} className="flex flex-grow items-stretch gap-1">
           <div className="relative flex flex-grow items-center">
             <input
@@ -379,27 +383,23 @@ const InputSection: FC<InputSectionProps> = ({ disabled, setInputSectionOffset, 
               disabled={disabled}
               ref={textInputRef}
               value={inputValue}
-              onChange={(e) => {
-                setInputValue(e.target.value);
-              }}
+              onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleReplaceEmoji}
               onPaste={handlePaste}
               className="h-9 w-full rounded-full bg-dark-lighten pl-3 pr-10 outline-none"
               type="text"
               placeholder="Message..."
             />
-            <button
-              type="button"
-              onClick={() => setIsIconPickerOpened(true)}
-              className="absolute right-2 top-1/2 -translate-y-1/2"
-            >
-              <i className="bx bxs-smile text-2xl text-primary"></i>
-            </button>
 
-            {isIconPickerOpened && (
-              <ClickAwayListener onClickAway={() => setIsIconPickerOpened(false)}>
-                {(ref) => (
-                  <div ref={ref} className="absolute bottom-full right-0">
+            {/* Emoji picker */}
+            <ClickAwayListener onClickAway={() => setIsIconPickerOpened(false)}>
+              {(ref) => (
+                <div ref={ref} className="absolute right-2 top-1/2 -translate-y-1/2">
+                  <button type="button" onClick={() => setIsIconPickerOpened((s) => !s)}>
+                    <i className="bx bxs-smile text-2xl text-primary"></i>
+                  </button>
+
+                  <div className={clsx('absolute bottom-full right-0', isIconPickerOpened ? 'block' : 'hidden')}>
                     <Suspense
                       fallback={
                         <div className="flex h-[357px] w-[348px] items-center justify-center rounded-lg border-2 border-[#555453] bg-[#222222]">
@@ -410,10 +410,11 @@ const InputSection: FC<InputSectionProps> = ({ disabled, setInputSectionOffset, 
                       <Picker onSelect={(emoji: any) => addIconToInput(emoji.native)} />
                     </Suspense>
                   </div>
-                )}
-              </ClickAwayListener>
-            )}
+                </div>
+              )}
+            </ClickAwayListener>
           </div>
+
           {fileUploading ? (
             <div className="ml-1 flex items-center">
               <Spin width="24px" height="24px" color="#0D90F3" />
