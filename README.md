@@ -3,6 +3,15 @@
 <p align="center">  
   <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="400" />
 </p>
+
+<p align="center">
+  <img alt="Stars" src="https://badgen.net/github/stars/yuran1811/chatie">
+  <img alt="Forks" src="https://badgen.net/github/forks/yuran1811/chatie">
+  <img alt="Issues" src="https://badgen.net/github/issues/yuran1811/chatie">
+  <img alt="Commits" src="https://badgen.net/github/commits/yuran1811/chatie">
+  <img alt="Code Size" src="https://img.shields.io/github/languages/code-size/yuran1811/chatie">
+</p>
+
 <div align="center"><a href="https://chat-app-firebase-pied.vercel.app/" target="_blank">Live Demo</a></div>
 
 ## Features
